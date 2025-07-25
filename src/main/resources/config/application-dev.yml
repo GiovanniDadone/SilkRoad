@@ -33,8 +33,8 @@ spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     url: jdbc:mysql://localhost:3306/SilkRoad?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&createDatabaseIfNotExist=true
-    username: giovanni
-    password: B@RGHa86$b
+    username: root
+    password: password
     hikari:
       poolName: Hikari
       auto-commit: false
