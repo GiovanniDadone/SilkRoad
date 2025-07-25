@@ -1,0 +1,26 @@
+{
+  "silkRoadApp": {
+    "cart": {
+      "home": {
+        "title": "Carts",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Cart",
+        "createOrEditLabel": "Create or edit a Cart",
+        "notFound": "No Carts found"
+      },
+      "created": "A new Cart is created with identifier {{ param }}",
+      "updated": "A Cart is updated with identifier {{ param }}",
+      "deleted": "A Cart is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Cart {{ id }}?"
+      },
+      "detail": {
+        "title": "Cart"
+      },
+      "id": "ID",
+      "createdDate": "Created Date",
+      "customer": "Customer",
+      "cartItems": "Cart Items"
+    }
+  }
+}
