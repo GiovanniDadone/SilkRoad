@@ -33,6 +33,7 @@ public class Category {
      * Relazione uno-a-molti con Product
      */
     @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
+    @Builder.Default  // ← AGGIUNTO: Inizializza con HashSet vuoto
     private Set<Product> products = new HashSet<>();
     
     /**
@@ -43,6 +44,7 @@ public class Category {
     private Category parentCategory;
     
     @OneToMany(mappedBy = "parentCategory", fetch = FetchType.LAZY)
+    @Builder.Default  // ← AGGIUNTO: Inizializza con HashSet vuoto
     private Set<Category> subCategories = new HashSet<>();
     
     /**
@@ -69,6 +71,9 @@ public class Category {
      * Aggiunge una sottocategoria
      */
     public void addSubCategory(Category subCategory) {
+        if (this.subCategories == null) {
+            this.subCategories = new HashSet<>();
+        }
         subCategories.add(subCategory);
         subCategory.setParentCategory(this);
     }
@@ -77,14 +82,19 @@ public class Category {
      * Rimuove una sottocategoria
      */
     public void removeSubCategory(Category subCategory) {
-        subCategories.remove(subCategory);
-        subCategory.setParentCategory(null);
+        if (this.subCategories != null) {
+            subCategories.remove(subCategory);
+            subCategory.setParentCategory(null);
+        }
     }
     
     /**
      * Aggiunge un prodotto alla categoria
      */
     public void addProduct(Product product) {
+        if (this.products == null) {
+            this.products = new HashSet<>();
+        }
         products.add(product);
         product.setCategory(this);
     }
@@ -93,8 +103,10 @@ public class Category {
      * Rimuove un prodotto dalla categoria
      */
     public void removeProduct(Product product) {
-        products.remove(product);
-        product.setCategory(null);
+        if (this.products != null) {
+            products.remove(product);
+            product.setCategory(null);
+        }
     }
     
     /**
@@ -107,9 +119,13 @@ public class Category {
     
     /**
      * Conta il numero di prodotti attivi in questa categoria
+     * FIX: Aggiunto controllo null per evitare NullPointerException
      */
     @Transient
     public long getActiveProductCount() {
+        if (products == null) {
+            return 0;
+        }
         return products.stream()
                 .filter(Product::isActive)
                 .count();

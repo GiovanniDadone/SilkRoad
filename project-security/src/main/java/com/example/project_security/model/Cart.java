@@ -24,25 +24,17 @@ public class Cart {
     private Long id;
     
     /**
-     * Relazione molti-a-uno con User.
-     * Ogni carrello appartiene a un utente
+     * CAMBIATO: Ora punta a Utente invece di User
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private Utente user;  // ← CAMBIATO da User a Utente
     
-    /**
-     * Relazione uno-a-molti con CartItem.
-     * Un carrello contiene più elementi
-     */
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, 
                orphanRemoval = true, fetch = FetchType.LAZY)
+    @Builder.Default
     private Set<CartItem> cartItems = new HashSet<>();
     
-    /**
-     * Flag per indicare se il carrello è attivo.
-     * Un utente dovrebbe avere solo un carrello attivo alla volta
-     */
     @Column(name = "is_active", nullable = false)
     private boolean isActive = true;
     

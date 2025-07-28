@@ -1,11 +1,30 @@
 package com.example.project_security.model;
 
-import jakarta.persistence.*;
-import lombok.*;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Set;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * Entità Order che rappresenta un ordine effettuato da un utente.
@@ -25,37 +44,26 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    /**
-     * Data e ora in cui è stato effettuato l'ordine
-     */
     @Column(name = "order_date", nullable = false)
     private ZonedDateTime orderDate;
     
-    /**
-     * Stato dell'ordine
-     */
     @Enumerated(EnumType.STRING)
     @Column(name = "order_status", nullable = false, length = 20)
     private OrderStatus orderStatus;
     
-    /**
-     * Prezzo totale dell'ordine
-     */
     @Column(name = "total_price", nullable = false, precision = 10, scale = 2)
     private BigDecimal totalPrice;
     
     /**
-     * Relazione molti-a-uno con User
+     * CAMBIATO: Ora punta a Utente invece di User
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private Utente user;  // ← CAMBIATO da User a Utente
     
-    /**
-     * Relazione uno-a-molti con OrderItem
-     */
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, 
                orphanRemoval = true, fetch = FetchType.LAZY)
+    @Builder.Default
     private Set<OrderItem> orderItems = new HashSet<>();
     
     /**
