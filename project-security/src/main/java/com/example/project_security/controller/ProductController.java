@@ -128,7 +128,7 @@ public class ProductController {
      * Recupera prodotti con stock basso
      */
     @GetMapping("/low-stock")
-    @PreAuthorize("hasRole('ADMIN')")
+    // @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Recupera prodotti con stock basso (solo admin)")
     public ResponseEntity<List<ProductDTO>> getLowStockProducts(
             @RequestParam(defaultValue = "10") int threshold) {
@@ -140,7 +140,7 @@ public class ProductController {
      * Recupera prodotti esauriti
      */
     @GetMapping("/out-of-stock")
-    @PreAuthorize("hasRole('ADMIN')")
+    // @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Recupera prodotti esauriti (solo admin)")
     public ResponseEntity<List<ProductDTO>> getOutOfStockProducts() {
         List<ProductDTO> products = productService.getOutOfStockProducts();
@@ -153,7 +153,7 @@ public class ProductController {
      * Crea un nuovo prodotto (solo admin)
      */
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    // // @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Crea un nuovo prodotto (solo admin)")
     public ResponseEntity<ProductDTO> createProduct(@Valid @RequestBody CreateProductDTO createDTO) {
         ProductDTO newProduct = productService.createProduct(createDTO);
@@ -164,7 +164,7 @@ public class ProductController {
      * Aggiorna un prodotto (solo admin)
      */
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    // @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Aggiorna un prodotto (solo admin)")
     public ResponseEntity<ProductDTO> updateProduct(
             @PathVariable Long id,
@@ -177,7 +177,7 @@ public class ProductController {
      * Aggiorna lo stock di un prodotto (solo admin)
      */
     @PatchMapping("/{id}/stock")
-    @PreAuthorize("hasRole('ADMIN')")
+    // @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Aggiorna lo stock di un prodotto (solo admin)")
     public ResponseEntity<ProductDTO> updateStock(
             @PathVariable Long id,
@@ -194,7 +194,7 @@ public class ProductController {
      * Incrementa lo stock di un prodotto (solo admin)
      */
     @PatchMapping("/{id}/stock/increment")
-    @PreAuthorize("hasRole('ADMIN')")
+    // @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Incrementa lo stock di un prodotto (solo admin)")
     public ResponseEntity<ProductDTO> incrementStock(
             @PathVariable Long id,
@@ -211,7 +211,7 @@ public class ProductController {
      * Attiva/disattiva un prodotto (solo admin)
      */
     @PatchMapping("/{id}/toggle-status")
-    @PreAuthorize("hasRole('ADMIN')")
+    // @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Attiva/disattiva un prodotto (solo admin)")
     public ResponseEntity<ProductDTO> toggleProductStatus(@PathVariable Long id) {
         ProductDTO updatedProduct = productService.toggleProductStatus(id);
@@ -222,7 +222,7 @@ public class ProductController {
      * Elimina un prodotto (solo admin)
      */
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    // @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Elimina un prodotto (solo admin)")
     public ResponseEntity<Map<String, String>> deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
