@@ -1,0 +1,80 @@
+/* AddressBook.css */
+
+.address-book {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.address-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.address-header h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.address-form-container {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.address-form-container h3 {
+  font-size: 1.2rem;
+  margin-top: 0;
+  margin-bottom: 1.2rem;
+  color: #444;
+}
+
+.addresses-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.no-addresses {
+  text-align: center;
+  padding: 2rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  grid-column: 1 / -1;
+}
+
+.no-addresses p {
+  color: #666;
+  margin: 0;
+  font-size: 1rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .address-book {
+    padding: 1rem;
+  }
+
+  .addresses-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .address-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .address-form-container {
+    padding: 1rem;
+  }
+}

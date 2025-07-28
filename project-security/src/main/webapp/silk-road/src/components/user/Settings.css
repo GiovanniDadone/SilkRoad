@@ -1,0 +1,102 @@
+/* Settings.css */
+
+.settings {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.settings-section {
+  background-color: white;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.settings-section h2 {
+  font-size: 1.5rem;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.settings-form,
+.password-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.setting-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.setting-item:last-child {
+  border-bottom: none;
+}
+
+.setting-item label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: 500;
+  color: #333;
+  cursor: pointer;
+}
+
+.setting-item input[type='checkbox'] {
+  width: 1.25rem;
+  height: 1.25rem;
+  accent-color: #1a73e8;
+  cursor: pointer;
+}
+
+.setting-description {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #666;
+  padding-left: 2rem;
+}
+
+.password-form {
+  margin-top: 1.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .settings {
+    padding: 1.5rem;
+    gap: 2rem;
+  }
+
+  .settings-section {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .settings {
+    padding: 1rem;
+    gap: 1.5rem;
+  }
+
+  .settings-section {
+    padding: 1.25rem;
+  }
+
+  .settings-section h2 {
+    font-size: 1.3rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .setting-description {
+    padding-left: 1.75rem;
+  }
+}

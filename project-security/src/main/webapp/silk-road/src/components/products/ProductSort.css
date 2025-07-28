@@ -1,0 +1,48 @@
+/* ProductSort.css */
+
+.product-sort {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin: 1rem 0;
+}
+
+.product-sort label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.sort-select {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
+  font-size: 0.9rem;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sort-select:hover {
+  border-color: #999;
+}
+
+.sort-select:focus {
+  outline: none;
+  border-color: #0066cc;
+  box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.2);
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 480px) {
+  .product-sort {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+  }
+
+  .sort-select {
+    width: 100%;
+  }
+}

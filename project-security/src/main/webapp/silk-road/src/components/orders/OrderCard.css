@@ -1,0 +1,160 @@
+/* OrderCard.css */
+.order-card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+  border: 1px solid #eee;
+}
+
+.order-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid #f5f5f5;
+  background-color: #f9f9f9;
+}
+
+.order-info h3 {
+  margin: 0 0 0.25rem 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.order-date {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.order-status {
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.order-items {
+  padding: 1rem 1.5rem;
+}
+
+.order-item {
+  display: flex;
+  gap: 1rem;
+  padding: 0.75rem 0;
+  align-items: center;
+}
+
+.order-item:not(:last-child) {
+  border-bottom: 1px dashed #eee;
+}
+
+.order-item img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid #f0f0f0;
+}
+
+.item-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.item-name {
+  margin: 0 0 0.2rem 0;
+  font-size: 0.9rem;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.item-details {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.more-items {
+  text-align: center;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: #666;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+}
+
+.order-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #f5f5f5;
+  background-color: #f9f9f9;
+}
+
+.order-total {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .order-header {
+    padding: 1rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .order-status {
+    align-self: flex-end;
+  }
+
+  .order-items {
+    padding: 0.75rem 1rem;
+  }
+
+  .order-footer {
+    padding: 0.75rem 1rem;
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: stretch;
+  }
+
+  .order-total {
+    text-align: center;
+  }
+}
+
+/* Animation for status */
+@keyframes pulse {
+  0% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.8;
+  }
+}
+
+.order-status {
+  animation: pulse 2s infinite;
+}

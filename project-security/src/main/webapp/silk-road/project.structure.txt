@@ -1,0 +1,49 @@
+silk-road/
+├── .eslintrc.cjs
+├── .gitignore
+├── .prettierrc
+├── eslint.config.js
+├── index.html
+├── package.json
+├── project.structure.txt
+├── README.md
+├── vite.config.js
+└── src/
+    ├── App.jsx
+    ├── main.jsx
+    ├── Routes.jsx
+    ├── assets/
+    │   └── react.svg
+    ├── components/
+    │   ├── auth/
+    │   │   └── ProtectedRoute.jsx
+    │   ├── cart/
+    │   │   └── CartItem.jsx
+    │   ├── products/
+    │   │   └── ProductList.jsx
+    │   └── ui/
+    │       └── Layout.jsx
+    ├── contexts/
+    │   ├── AuthContext.jsx
+    │   ├── AuthProvider.jsx
+    │   └── CartContext.jsx
+    ├── hooks/
+    │   └── useProducts.js
+    ├── pages/
+    │   ├── Home.jsx
+    │   ├── index.js
+    │   ├── Auth/
+    │   │   ├── Login.jsx
+    │   │   └── Register.jsx
+    │   ├── Products/
+    │   │   ├── Products.jsx
+    │   │   └── ProductDetail.jsx
+    │   └── (Cart/, Checkout/, Orders/, User/)  # Queste cartelle sono previste dalla struttura ma non presenti nei file allegati
+    ├── services/
+    │   ├── api.js
+    │   ├── authService.js
+    │   └── productService.js
+    ├── styles/
+    │   ├── App.css
+    │   └── index.css
+    └── utils/

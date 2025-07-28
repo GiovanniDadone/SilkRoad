@@ -1,0 +1,75 @@
+/* AddressCard.css */
+
+.address-card {
+  position: relative;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1.25rem;
+  background-color: white;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.address-card:hover {
+  border-color: #b0b0b0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.address-card.default {
+  border: 1px solid #1a73e8;
+  background-color: #f5f9ff;
+}
+
+.default-badge {
+  position: absolute;
+  top: -10px;
+  right: 10px;
+  background-color: #1a73e8;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  text-transform: uppercase;
+}
+
+.address-content {
+  flex-grow: 1;
+  margin-bottom: 1rem;
+}
+
+.address-content h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+  color: #202124;
+}
+
+.address-content p {
+  margin: 0.25rem 0;
+  font-size: 0.9rem;
+  color: #5f6368;
+  line-height: 1.4;
+}
+
+.address-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: auto;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .address-card {
+    padding: 1rem;
+  }
+
+  .address-content h4 {
+    font-size: 1rem;
+  }
+
+  .address-content p {
+    font-size: 0.85rem;
+  }
+}

@@ -1,0 +1,70 @@
+.order-info {
+  padding: 20px;
+}
+
+.order-info h3 {
+  margin-bottom: 20px;
+  color: #333;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+.order-info-section {
+  margin-bottom: 25px;
+}
+
+.order-info-section h4 {
+  font-size: 16px;
+  margin-bottom: 12px;
+  color: #555;
+}
+
+.order-info-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.order-info-item span:first-child {
+  color: #666;
+}
+
+.order-info-item.total {
+  font-weight: bold;
+  font-size: 16px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed #eee;
+}
+
+.order-address {
+  font-style: normal;
+  line-height: 1.5;
+  font-size: 14px;
+  color: #555;
+}
+
+.order-address p {
+  margin: 3px 0;
+}
+
+.payment-info {
+  font-size: 14px;
+  color: #555;
+}
+
+.card-number {
+  margin-bottom: 5px;
+}
+
+.cardholder {
+  color: #666;
+  font-size: 13px;
+}
+
+@media (max-width: 768px) {
+  .order-info {
+    padding: 15px;
+  }
+}
