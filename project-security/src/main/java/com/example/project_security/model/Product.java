@@ -3,85 +3,111 @@ package com.example.project_security.model;
 import jakarta.persistence.*;
 import lombok.*;
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
- * Entità CartItem che rappresenta un singolo articolo nel carrello.
- * Contiene il riferimento al prodotto e la quantità desiderata.
+ * Entità Product che rappresenta un prodotto nel catalogo e-commerce.
+ * Contiene tutte le informazioni del prodotto incluse categorie e disponibilità.
  */
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "cart_items",
-       uniqueConstraints = {
-           @UniqueConstraint(columnNames = {"cart_id", "product_id"})
-       })
-@EqualsAndHashCode(exclude = {"cart", "product"})
-@ToString(exclude = {"cart", "product"})
-public class CartItem {
+@Table(name = "products")
+@EqualsAndHashCode(exclude = {"category", "cartItems", "orderItems"})
+@ToString(exclude = {"category", "cartItems", "orderItems"})
+public class Product {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    /**
-     * Quantità del prodotto nel carrello
-     */
-    @Column(nullable = false)
-    private Integer quantity;
+    @Column(nullable = false, length = 100)
+    private String name;
+    
+    @Column(columnDefinition = "TEXT")
+    private String description;
+    
+    @Column(nullable = false, precision = 10, scale = 2)
+    private BigDecimal price;
     
     /**
-     * Prezzo unitario al momento dell'aggiunta al carrello.
-     * Memorizzato per mantenere lo storico del prezzo
+     * Quantità disponibile in magazzino
      */
-    @Column(name = "unit_price", nullable = false, precision = 10, scale = 2)
-    private BigDecimal unitPrice;
+    @Column(name = "stock_quantity", nullable = false)
+    private Integer stockQuantity;
     
     /**
-     * Relazione molti-a-uno con Cart
+     * URL dell'immagine del prodotto
+     */
+    @Column(name = "image_url", length = 500)
+    private String imageUrl;
+    
+    /**
+     * Relazione molti-a-uno con Category
      */
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cart_id", nullable = false)
-    private Cart cart;
+    @JoinColumn(name = "category_id")
+    private Category category;
     
     /**
-     * Relazione molti-a-uno con Product
+     * Relazione uno-a-molti con CartItem
      */
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id", nullable = false)
-    private Product product;
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    private Set<CartItem> cartItems = new HashSet<>();
     
     /**
-     * Calcola il subtotale per questo item
+     * Relazione uno-a-molti con OrderItem
+     */
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    private Set<OrderItem> orderItems = new HashSet<>();
+    
+    /**
+     * Flag per indicare se il prodotto è attivo/disponibile per la vendita
+     */
+    @Column(name = "is_active", nullable = false)
+    private boolean isActive = true;
+    
+    /**
+     * SKU (Stock Keeping Unit) - codice univoco del prodotto
+     */
+    @Column(unique = true, length = 50)
+    private String sku;
+    
+    // Metodi di utilità
+    
+    /**
+     * Verifica se il prodotto è disponibile per l'acquisto
      */
     @Transient
-    public BigDecimal getSubtotal() {
-        return unitPrice.multiply(BigDecimal.valueOf(quantity));
+    public boolean isAvailable() {
+        return isActive && stockQuantity > 0;
     }
     
     /**
-     * Incrementa la quantità di 1
+     * Verifica se c'è abbastanza stock per la quantità richiesta
      */
-    public void incrementQuantity() {
-        this.quantity++;
+    public boolean hasStock(int quantity) {
+        return stockQuantity >= quantity;
     }
     
     /**
-     * Decrementa la quantità di 1 (minimo 1)
+     * Decrementa lo stock della quantità specificata
      */
-    public void decrementQuantity() {
-        if (this.quantity > 1) {
-            this.quantity--;
+    public void decrementStock(int quantity) {
+        if (hasStock(quantity)) {
+            this.stockQuantity -= quantity;
+        } else {
+            throw new IllegalArgumentException("Stock insufficiente per il prodotto: " + name);
         }
     }
     
     /**
-     * Aggiorna il prezzo unitario con il prezzo corrente del prodotto
+     * Incrementa lo stock della quantità specificata
      */
-    public void updatePrice() {
-        if (product != null) {
-            this.unitPrice = product.getPrice();
-        }
+    public void incrementStock(int quantity) {
+        this.stockQuantity += quantity;
     }
 }
