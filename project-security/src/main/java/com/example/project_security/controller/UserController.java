@@ -1,19 +1,31 @@
 package com.example.project_security.controller;
 
-import com.example.project_security.dto.*;
-import com.example.project_security.service.UserService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.Map;
+import com.example.project_security.dto.UserDTO;
+import com.example.project_security.dto.request.UserRegistrationDTO;
+import com.example.project_security.dto.request.UserUpdateDTO;
+import com.example.project_security.service.UserService;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 /**
  * REST Controller per la gestione degli utenti del sistema e-commerce.
@@ -24,9 +36,9 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Tag(name = "User Management", description = "API per la gestione degli utenti")
 public class UserController {
-    
+
     private final UserService userService;
-    
+
     /**
      * Registra un nuovo utente
      */
@@ -36,7 +48,7 @@ public class UserController {
         UserDTO newUser = userService.registerUser(registrationDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
     }
-    
+
     /**
      * Recupera il profilo dell'utente corrente
      */
@@ -48,7 +60,7 @@ public class UserController {
         UserDTO user = userService.getUserByEmail(email);
         return ResponseEntity.ok(user);
     }
-    
+
     /**
      * Aggiorna il profilo dell'utente corrente
      */
@@ -63,7 +75,7 @@ public class UserController {
         UserDTO updatedUser = userService.updateUser(currentUser.getId(), updateDTO);
         return ResponseEntity.ok(updatedUser);
     }
-    
+
     /**
      * Cambia la password dell'utente corrente
      */
@@ -75,19 +87,19 @@ public class UserController {
             @Valid @RequestBody Map<String, String> passwordData) {
         String email = authentication.getName();
         UserDTO currentUser = userService.getUserByEmail(email);
-        
+
         String currentPassword = passwordData.get("currentPassword");
         String newPassword = passwordData.get("newPassword");
-        
+
         if (currentPassword == null || newPassword == null) {
             return ResponseEntity.badRequest()
                     .body(Map.of("error", "Password corrente e nuova password sono obbligatorie"));
         }
-        
+
         userService.changePassword(currentUser.getId(), currentPassword, newPassword);
         return ResponseEntity.ok(Map.of("message", "Password cambiata con successo"));
     }
-    
+
     /**
      * Verifica se un'email è disponibile
      */
@@ -97,9 +109,9 @@ public class UserController {
         boolean available = userService.isEmailAvailable(email);
         return ResponseEntity.ok(Map.of("available", available));
     }
-    
+
     // ===== ADMIN ENDPOINTS =====
-    
+
     /**
      * Recupera tutti gli utenti (solo admin)
      */
@@ -110,7 +122,7 @@ public class UserController {
         List<UserDTO> users = userService.getAllUsers();
         return ResponseEntity.ok(users);
     }
-    
+
     /**
      * Recupera un utente specifico (solo admin)
      */
@@ -121,7 +133,7 @@ public class UserController {
         UserDTO user = userService.getUserById(id);
         return ResponseEntity.ok(user);
     }
-    
+
     /**
      * Aggiorna un utente (solo admin)
      */
@@ -134,7 +146,7 @@ public class UserController {
         UserDTO updatedUser = userService.updateUser(id, updateDTO);
         return ResponseEntity.ok(updatedUser);
     }
-    
+
     /**
      * Elimina un utente (solo admin)
      */
@@ -145,7 +157,7 @@ public class UserController {
         userService.deleteUser(id);
         return ResponseEntity.ok(Map.of("message", "Utente eliminato con successo"));
     }
-    
+
     /**
      * Aggiunge un ruolo a un utente (solo admin)
      */
@@ -162,7 +174,7 @@ public class UserController {
         UserDTO updatedUser = userService.addAuthority(id, authority);
         return ResponseEntity.ok(updatedUser);
     }
-    
+
     /**
      * Rimuove un ruolo da un utente (solo admin)
      */
@@ -175,7 +187,7 @@ public class UserController {
         UserDTO updatedUser = userService.removeAuthority(id, authority);
         return ResponseEntity.ok(updatedUser);
     }
-    
+
     /**
      * Cerca utenti per nome (solo admin)
      */
@@ -186,7 +198,7 @@ public class UserController {
         List<UserDTO> users = userService.searchUsersByName(name);
         return ResponseEntity.ok(users);
     }
-    
+
     /**
      * Recupera utenti per ruolo (solo admin)
      */

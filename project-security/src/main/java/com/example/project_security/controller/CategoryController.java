@@ -1,18 +1,31 @@
 package com.example.project_security.controller;
 
-import com.example.project_security.dto.*;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.project_security.dto.CategoryDTO;
+import com.example.project_security.dto.request.CreateCategoryDTO;
+import com.example.project_security.dto.request.UpdateCategoryDTO;
+import com.example.project_security.dto.response.CategoryTreeDTO;
 import com.example.project_security.service.CategoryService;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * REST Controller per la gestione delle categorie dei prodotti.
@@ -23,9 +36,9 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Tag(name = "Category Management", description = "API per la gestione delle categorie")
 public class CategoryController {
-    
+
     private final CategoryService categoryService;
-    
+
     /**
      * Recupera tutte le categorie attive
      */
@@ -35,7 +48,7 @@ public class CategoryController {
         List<CategoryDTO> categories = categoryService.getAllActiveCategories();
         return ResponseEntity.ok(categories);
     }
-    
+
     /**
      * Recupera l'albero completo delle categorie
      */
@@ -45,7 +58,7 @@ public class CategoryController {
         List<CategoryTreeDTO> categoryTree = categoryService.getCategoryTree();
         return ResponseEntity.ok(categoryTree);
     }
-    
+
     /**
      * Recupera le categorie radice (senza padre)
      */
@@ -55,7 +68,7 @@ public class CategoryController {
         List<CategoryDTO> rootCategories = categoryService.getRootCategories();
         return ResponseEntity.ok(rootCategories);
     }
-    
+
     /**
      * Recupera una categoria specifica per ID
      */
@@ -65,7 +78,7 @@ public class CategoryController {
         CategoryDTO category = categoryService.getCategoryById(id);
         return ResponseEntity.ok(category);
     }
-    
+
     /**
      * Recupera una categoria per nome
      */
@@ -75,7 +88,7 @@ public class CategoryController {
         CategoryDTO category = categoryService.getCategoryByName(name);
         return ResponseEntity.ok(category);
     }
-    
+
     /**
      * Recupera le sottocategorie di una categoria
      */
@@ -85,7 +98,7 @@ public class CategoryController {
         List<CategoryDTO> subcategories = categoryService.getSubcategories(id);
         return ResponseEntity.ok(subcategories);
     }
-    
+
     /**
      * Recupera il percorso completo di una categoria (breadcrumb)
      */
@@ -95,7 +108,7 @@ public class CategoryController {
         List<CategoryDTO> path = categoryService.getCategoryPath(id);
         return ResponseEntity.ok(path);
     }
-    
+
     /**
      * Recupera categorie con prodotti attivi
      */
@@ -105,7 +118,7 @@ public class CategoryController {
         List<CategoryDTO> categories = categoryService.getCategoriesWithProducts();
         return ResponseEntity.ok(categories);
     }
-    
+
     /**
      * Conta i prodotti per categoria
      */
@@ -115,9 +128,9 @@ public class CategoryController {
         List<Object[]> counts = categoryService.getProductCountByCategory();
         return ResponseEntity.ok(counts);
     }
-    
+
     // ===== ADMIN ENDPOINTS =====
-    
+
     /**
      * Crea una nuova categoria (solo admin)
      */
@@ -128,7 +141,7 @@ public class CategoryController {
         CategoryDTO newCategory = categoryService.createCategory(createDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(newCategory);
     }
-    
+
     /**
      * Aggiorna una categoria (solo admin)
      */
@@ -141,7 +154,7 @@ public class CategoryController {
         CategoryDTO updatedCategory = categoryService.updateCategory(id, updateDTO);
         return ResponseEntity.ok(updatedCategory);
     }
-    
+
     /**
      * Attiva/disattiva una categoria (solo admin)
      */
@@ -152,7 +165,7 @@ public class CategoryController {
         CategoryDTO updatedCategory = categoryService.toggleCategoryStatus(id);
         return ResponseEntity.ok(updatedCategory);
     }
-    
+
     /**
      * Elimina una categoria (solo admin)
      */

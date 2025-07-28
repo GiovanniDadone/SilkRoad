@@ -1,4 +1,6 @@
-package com.example.project_security.dto;
+package com.example.project_security.dto.response;
+
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,21 +8,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * DTO per la rappresentazione di una categoria
+ * DTO per la rappresentazione gerarchica delle categorie
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CategoryDTO {
+public class CategoryTreeDTO {
     private Long id;
     private String name;
     private String description;
     private String imageUrl;
-    private Integer displayOrder;
-    private boolean isActive;
-    private Long parentCategoryId;
-    private String parentCategoryName;
     private long productCount;
-    private boolean hasSubcategories;
+    private List<CategoryTreeDTO> children;
 }

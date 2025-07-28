@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.project_security.dto.AuthRequest;
-import com.example.project_security.dto.AuthResponse;
 import com.example.project_security.dto.RegisterRequest;
+import com.example.project_security.dto.request.AuthRequest;
+import com.example.project_security.dto.response.AuthResponse;
 import com.example.project_security.model.Utente;
 import com.example.project_security.repository.UtenteRepository;
 import com.example.project_security.service.CustomUserDetailsService;

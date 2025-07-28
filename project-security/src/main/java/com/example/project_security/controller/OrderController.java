@@ -1,25 +1,37 @@
 package com.example.project_security.controller;
 
-import com.example.project_security.dto.*;
-import com.example.project_security.model.OrderStatus;
-import com.example.project_security.service.OrderService;
-import com.example.project_security.service.UserService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.math.BigDecimal;
-import java.time.ZonedDateTime;
-import java.util.List;
-import java.util.Map;
+import com.example.project_security.dto.OrderDTO;
+import com.example.project_security.dto.UserDTO;
+import com.example.project_security.dto.request.CreateOrderDTO;
+import com.example.project_security.dto.request.UpdateOrderStatusDTO;
+import com.example.project_security.model.OrderStatus;
+import com.example.project_security.service.OrderService;
+import com.example.project_security.service.UserService;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 /**
  * REST Controller per la gestione degli ordini.
@@ -31,10 +43,10 @@ import java.util.Map;
 @PreAuthorize("isAuthenticated()")
 @Tag(name = "Order Management", description = "API per la gestione degli ordini")
 public class OrderController {
-    
+
     private final OrderService orderService;
     private final UserService userService;
-    
+
     /**
      * Crea un nuovo ordine dal carrello corrente
      */
@@ -47,7 +59,7 @@ public class OrderController {
         OrderDTO newOrder = orderService.createOrderFromCart(userId, createOrderDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(newOrder);
     }
-    
+
     /**
      * Recupera tutti gli ordini dell'utente corrente
      */
@@ -61,7 +73,7 @@ public class OrderController {
         Page<OrderDTO> orders = orderService.getUserOrders(userId, page, size);
         return ResponseEntity.ok(orders);
     }
-    
+
     /**
      * Recupera un ordine specifico dell'utente corrente
      */
@@ -74,7 +86,7 @@ public class OrderController {
         OrderDTO order = orderService.getOrderByIdForUser(orderId, userId);
         return ResponseEntity.ok(order);
     }
-    
+
     /**
      * Cancella un ordine dell'utente corrente (se possibile)
      */
@@ -87,12 +99,12 @@ public class OrderController {
         Long userId = getUserId(authentication);
         // Verifica che l'ordine appartenga all'utente
         orderService.getOrderByIdForUser(orderId, userId);
-        
+
         String reason = cancelData.getOrDefault("reason", "Cancellato dall'utente");
         OrderDTO cancelledOrder = orderService.cancelOrder(orderId, reason);
         return ResponseEntity.ok(cancelledOrder);
     }
-    
+
     /**
      * Recupera il totale speso dall'utente corrente
      */
@@ -103,7 +115,7 @@ public class OrderController {
         BigDecimal total = orderService.calculateUserOrdersTotal(userId);
         return ResponseEntity.ok(Map.of("total", total));
     }
-    
+
     /**
      * Traccia un ordine tramite numero di tracking
      */
@@ -113,9 +125,9 @@ public class OrderController {
         OrderDTO order = orderService.getOrderByTrackingNumber(trackingNumber);
         return ResponseEntity.ok(order);
     }
-    
+
     // ===== ADMIN ENDPOINTS =====
-    
+
     /**
      * Recupera tutti gli ordini (solo admin)
      */
@@ -130,7 +142,7 @@ public class OrderController {
         Page<OrderDTO> orders = orderService.getAllOrders(page, size, sortBy, sortDirection);
         return ResponseEntity.ok(orders);
     }
-    
+
     /**
      * Recupera un ordine specifico (solo admin)
      */
@@ -141,7 +153,7 @@ public class OrderController {
         OrderDTO order = orderService.getOrderById(orderId);
         return ResponseEntity.ok(order);
     }
-    
+
     /**
      * Recupera ordini per stato (solo admin)
      */
@@ -155,7 +167,7 @@ public class OrderController {
         Page<OrderDTO> orders = orderService.getOrdersByStatus(status, page, size);
         return ResponseEntity.ok(orders);
     }
-    
+
     /**
      * Aggiorna lo stato di un ordine (solo admin)
      */
@@ -166,13 +178,12 @@ public class OrderController {
             @PathVariable Long orderId,
             @Valid @RequestBody UpdateOrderStatusDTO updateStatusDTO) {
         OrderDTO updatedOrder = orderService.updateOrderStatus(
-                orderId, 
-                updateStatusDTO.getNewStatus(), 
-                updateStatusDTO.getNotes()
-        );
+                orderId,
+                updateStatusDTO.getNewStatus(),
+                updateStatusDTO.getNotes());
         return ResponseEntity.ok(updatedOrder);
     }
-    
+
     /**
      * Recupera ordini da processare (solo admin)
      */
@@ -183,7 +194,7 @@ public class OrderController {
         List<OrderDTO> orders = orderService.getOrdersToProcess();
         return ResponseEntity.ok(orders);
     }
-    
+
     /**
      * Recupera ordini da spedire (solo admin)
      */
@@ -194,7 +205,7 @@ public class OrderController {
         List<OrderDTO> orders = orderService.getOrdersToShip();
         return ResponseEntity.ok(orders);
     }
-    
+
     /**
      * Genera report vendite per periodo (solo admin)
      */
@@ -207,7 +218,7 @@ public class OrderController {
         List<Object[]> report = orderService.generateSalesReport(startDate, endDate);
         return ResponseEntity.ok(report);
     }
-    
+
     /**
      * Metodo helper per ottenere l'ID utente dall'autenticazione
      */
