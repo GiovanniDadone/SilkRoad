@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useUser } from '../../contexts/UserContext'
+import { useUser } from '../../hooks/useUser'
 
 const User = () => {
   const { user, updateUser, logout } = useUser()

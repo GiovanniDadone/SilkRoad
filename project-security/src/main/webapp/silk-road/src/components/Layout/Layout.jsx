@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { useCart } from '../../contexts/CartContext'
-import { useUser } from '../../contexts/UserContext'
+import { useCart } from '../../hooks/useCart'
+import { useUser } from '../../hooks/useUser'
 
 const Layout = ({ children }) => {
   const location = useLocation()

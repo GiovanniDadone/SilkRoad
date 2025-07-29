@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useCart } from '../../contexts/CartContext';
-import { useOrder } from '../../contexts/OrderContext';
+import { useCart } from '../../hooks/useCart';
+import { useOrder } from '../../hooks/useOrder';
 import { useNavigate } from 'react-router-dom';
 
 const Checkout = () => {
@@ -43,6 +43,7 @@ const Checkout = () => {
             alert('Order placed successfully!');
             navigate('/orders');
         } catch (error) {
+            console.log(error);
             alert('Error placing order. Please try again.');
         }
     };

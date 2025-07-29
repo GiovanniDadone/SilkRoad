@@ -1,10 +1,10 @@
-import React, { createContext, useContext, useReducer, useEffect } from 'react'
+import React, { createContext, useReducer, useEffect } from 'react'
 
 const CartContext = createContext()
 
 const cartReducer = (state, action) => {
   switch (action.type) {
-    case 'ADD_ITEM':
+    case 'ADD_ITEM': {
       const existingItemIndex = state.items.findIndex(
         (item) => item.id === action.payload.id && item.size === action.payload.size
       )
@@ -19,6 +19,7 @@ const cartReducer = (state, action) => {
         ...state,
         items: [...state.items, { ...action.payload, quantity: action.payload.quantity || 1 }],
       }
+    }
 
     case 'REMOVE_ITEM':
       return {
@@ -48,6 +49,9 @@ const cartReducer = (state, action) => {
       return state
   }
 }
+
+export default CartContext
+export { CartContext }
 
 export const CartProvider = ({ children }) => {
   const [state, dispatch] = useReducer(cartReducer, { items: [] })
@@ -119,12 +123,4 @@ export const CartProvider = ({ children }) => {
       {children}
     </CartContext.Provider>
   )
-}
-
-export const useCart = () => {
-  const context = useContext(CartContext)
-  if (!context) {
-    throw new Error('useCart must be used within a CartProvider')
-  }
-  return context
 }

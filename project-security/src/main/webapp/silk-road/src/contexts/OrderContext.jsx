@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useReducer, useEffect } from 'react'
-import { orderService } from '../services/api'
+import React, { createContext, useReducer, useEffect } from 'react'
+import { orderService } from '../services/orderService'
 
 const OrderContext = createContext()
 
@@ -43,6 +43,9 @@ const orderReducer = (state, action) => {
       return state
   }
 }
+
+export default OrderContext
+export { OrderContext }
 
 export const OrderProvider = ({ children }) => {
   const [state, dispatch] = useReducer(orderReducer, {
@@ -94,12 +97,4 @@ export const OrderProvider = ({ children }) => {
       {children}
     </OrderContext.Provider>
   )
-}
-
-export const useOrder = () => {
-  const context = useContext(OrderContext)
-  if (!context) {
-    throw new Error('useOrder must be used within an OrderProvider')
-  }
-  return context
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-import { useProducts } from '../../contexts/ProductContext'
+import { useProducts } from '../../hooks/useProducts'
 import Input from '../ui/Input'
 import Button from '../ui/Button'
 import './ProductFilters.css'

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useProducts } from '../../contexts/ProductContext'
+import { useProducts } from '../../hooks/useProducts'
 import './SearchBar.css'
 
 const SearchBar = () => {

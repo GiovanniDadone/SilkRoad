@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useReducer, useEffect } from 'react'
-import { authService } from '../services/api'
+import React, { createContext, useReducer, useEffect } from 'react'
+import { authService } from '../services/authService'
 
 const UserContext = createContext()
 
@@ -51,6 +51,9 @@ const userReducer = (state, action) => {
       return state
   }
 }
+
+export default UserContext
+export { UserContext }
 
 export const UserProvider = ({ children }) => {
   const [state, dispatch] = useReducer(userReducer, {
@@ -153,12 +156,4 @@ export const UserProvider = ({ children }) => {
       {children}
     </UserContext.Provider>
   )
-}
-
-export const useUser = () => {
-  const context = useContext(UserContext)
-  if (!context) {
-    throw new Error('useUser must be used within a UserProvider')
-  }
-  return context
 }

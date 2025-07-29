@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import ProductCard from '../../components/products/ProductCard' // Assicurati che il percorso sia corretto
-import { useProducts } from '../../contexts/ProductContext' // Importa il context dei prodotti
+import { useProducts } from '../../hooks/useProducts' // Importa il context dei prodotti
 
 const Home = () => {
   const [featuredProducts, setFeaturedProducts] = useState([])

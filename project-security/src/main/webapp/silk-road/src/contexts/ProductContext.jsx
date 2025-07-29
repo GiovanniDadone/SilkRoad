@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useReducer, useEffect } from 'react'
-import { productService } from '../services/api'
+import React, { createContext, useReducer, useEffect, useCallback } from 'react'
+import { productService } from '../services/productService'
 
 const ProductContext = createContext()
 
@@ -98,84 +98,100 @@ const initialState = {
   sortOrder: 'asc',
 }
 
+export default ProductContext
+export { ProductContext }
+
 export const ProductProvider = ({ children }) => {
   const [state, dispatch] = useReducer(productReducer, initialState)
 
-  const fetchProducts = async (params = {}) => {
-    dispatch({ type: 'SET_LOADING', payload: true })
-
-    try {
-      const queryParams = {
-        page: state.currentPage,
-        limit: state.productsPerPage,
-        search: state.searchQuery,
-        sortBy: state.sortBy,
-        sortOrder: state.sortOrder,
-        ...state.filters,
-        ...params,
-      }
-
-      // Remove empty values
-      Object.keys(queryParams).forEach((key) => {
-        if (
-          queryParams[key] === '' ||
-          queryParams[key] === null ||
-          queryParams[key] === undefined
-        ) {
-          delete queryParams[key]
-        }
-      })
-
-      const response = await productService.getProducts(queryParams)
-
-      dispatch({
-        type: 'SET_PRODUCTS',
-        payload: {
-          products: response.products || response,
-          total: response.total || response.length,
-        },
-      })
-    } catch (error) {
-      dispatch({ type: 'SET_ERROR', payload: error.message })
-    }
-  }
-
-  const searchProducts = async (query) => {
-    dispatch({ type: 'SET_SEARCH_QUERY', payload: query })
-
-    if (query.trim()) {
+  const fetchProducts = useCallback(
+    async (params = {}) => {
       dispatch({ type: 'SET_LOADING', payload: true })
 
       try {
-        const results = await productService.searchProducts(query)
+        const queryParams = {
+          page: state.currentPage,
+          limit: state.productsPerPage,
+          search: state.searchQuery,
+          sortBy: state.sortBy,
+          sortOrder: state.sortOrder,
+          ...state.filters,
+          ...params,
+        }
+
+        // Remove empty values
+        Object.keys(queryParams).forEach((key) => {
+          if (
+            queryParams[key] === '' ||
+            queryParams[key] === null ||
+            queryParams[key] === undefined
+          ) {
+            delete queryParams[key]
+          }
+        })
+
+        const response = await productService.getProducts(queryParams)
+
         dispatch({
           type: 'SET_PRODUCTS',
           payload: {
-            products: results.products || results,
-            total: results.total || results.length,
+            products: response.products || response,
+            total: response.total || response.length,
           },
         })
       } catch (error) {
         dispatch({ type: 'SET_ERROR', payload: error.message })
       }
-    } else {
-      fetchProducts()
-    }
-  }
+    },
+    [
+      state.currentPage,
+      state.productsPerPage,
+      state.searchQuery,
+      state.sortBy,
+      state.sortOrder,
+      state.filters,
+    ]
+  )
 
-  const setFilters = (filters) => {
+  const searchProducts = useCallback(
+    async (query) => {
+      dispatch({ type: 'SET_SEARCH_QUERY', payload: query })
+
+      if (query.trim()) {
+        dispatch({ type: 'SET_LOADING', payload: true })
+
+        try {
+          const results = await productService.searchProducts(query)
+          dispatch({
+            type: 'SET_PRODUCTS',
+            payload: {
+              products: results.products || results,
+              total: results.total || results.length,
+            },
+          })
+        } catch (error) {
+          dispatch({ type: 'SET_ERROR', payload: error.message })
+        }
+      } else {
+        fetchProducts()
+      }
+    },
+    [fetchProducts]
+  )
+
+  const setFilters = useCallback((filters) => {
     dispatch({ type: 'SET_FILTERS', payload: filters })
-  }
+  }, [])
 
-  const setSorting = (sortBy, sortOrder) => {
+  const setSorting = useCallback((sortBy, sortOrder) => {
     dispatch({ type: 'SET_SORT', payload: { sortBy, sortOrder } })
-  }
+  }, [])
 
-  const setPage = (page) => {
+  const setPage = useCallback((page) => {
     dispatch({ type: 'SET_PAGE', payload: page })
-  }
+  }, [])
 
-  const clearFilters = () => {
+  const clearFilters = useCallback(() => {
     dispatch({
       type: 'SET_FILTERS',
       payload: {
@@ -186,12 +202,12 @@ export const ProductProvider = ({ children }) => {
       },
     })
     dispatch({ type: 'SET_SEARCH_QUERY', payload: '' })
-  }
+  }, [])
 
   // Fetch products when filters, sorting, or page changes
   useEffect(() => {
     fetchProducts()
-  }, [state.currentPage, state.filters, state.sortBy, state.sortOrder])
+  }, [state.currentPage, state.filters, state.sortBy, state.sortOrder, fetchProducts])
 
   return (
     <ProductContext.Provider
@@ -207,12 +223,4 @@ export const ProductProvider = ({ children }) => {
       {children}
     </ProductContext.Provider>
   )
-}
-
-export const useProducts = () => {
-  const context = useContext(ProductContext)
-  if (!context) {
-    throw new Error('useProducts must be used within a ProductProvider')
-  }
-  return context
 }

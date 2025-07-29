@@ -7,16 +7,24 @@ import ProductGrid from '../../components/products/ProductGrid'
 import SearchBar from '../../components/products/SearchBar'
 import Pagination from '../../components/ui/Pagination'
 import Loading from '../../components/ui/Loading'
-import { useProducts } from '../../contexts/ProductContext'
+import { useProducts } from '../../hooks/useProducts'
 import './Products.css'
 
 const ProductsContent = () => {
-  const { products, totalProducts, loading, error, currentPage, productsPerPage, fetchProducts } =
-    useProducts()
+  const {
+    products,
+    totalProducts,
+    loading,
+    error,
+    currentPage,
+    productsPerPage,
+    fetchProducts,
+    setPage,
+  } = useProducts()
 
   useEffect(() => {
     fetchProducts()
-  }, [])
+  }, [fetchProducts])
 
   const totalPages = Math.ceil(totalProducts / productsPerPage)
 
