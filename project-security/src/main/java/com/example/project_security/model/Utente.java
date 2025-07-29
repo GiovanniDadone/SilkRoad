@@ -24,7 +24,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 /**
- * Entità Utente unificata che gestisce sia autenticazione JWT che profilo e-commerce
+ * Entità Utente unificata che gestisce sia autenticazione JWT che profilo
+ * e-commerce
  */
 @Entity
 @Data
@@ -32,8 +33,8 @@ import lombok.ToString;
 @AllArgsConstructor
 @Builder
 @Table(name = "utenti")
-@EqualsAndHashCode(exclude = {"carts", "orders"})
-@ToString(exclude = {"carts", "orders"})
+@EqualsAndHashCode(exclude = { "carts", "orders" })
+@ToString(exclude = { "carts", "orders" })
 public class Utente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,16 +52,16 @@ public class Utente {
     // ===== CAMPI E-COMMERCE (NUOVI) =====
     @Column(name = "first_name", length = 50)
     private String firstName;
-    
+
     @Column(name = "last_name", length = 50)
     private String lastName;
-    
+
     @Column(unique = true, length = 100)
     private String email;
-    
+
     @Column(length = 200)
     private String address;
-    
+
     @Column(length = 20)
     private String telephone;
 
@@ -71,7 +72,7 @@ public class Utente {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @Builder.Default
     private Set<Cart> carts = new HashSet<>();
-    
+
     /**
      * Relazione uno-a-molti con Order.
      */
@@ -87,14 +88,14 @@ public class Utente {
         carts.add(cart);
         cart.setUser(this);
     }
-    
+
     public void removeCart(Cart cart) {
         if (this.carts != null) {
             carts.remove(cart);
             cart.setUser(null);
         }
     }
-    
+
     public void addOrder(Order order) {
         if (this.orders == null) {
             this.orders = new HashSet<>();
@@ -102,7 +103,7 @@ public class Utente {
         orders.add(order);
         order.setUser(this);
     }
-    
+
     public void removeOrder(Order order) {
         if (this.orders != null) {
             orders.remove(order);
@@ -115,17 +116,12 @@ public class Utente {
      */
     @Transient
     public boolean hasCompleteProfile() {
-        return firstName != null && lastName != null && 
-               email != null && address != null && telephone != null;
+        return firstName != null && lastName != null &&
+                email != null && address != null && telephone != null;
     }
-    
-@ManyToMany(fetch = FetchType.EAGER)
-@JoinTable(
-    name = "utente_ruoli",
-    joinColumns = @JoinColumn(name = "utente_id"),
-    inverseJoinColumns = @JoinColumn(name = "ruolo_id")
-)
-private Set<Role> roles = new HashSet<>();
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "utente_ruoli", joinColumns = @JoinColumn(name = "utente_id"), inverseJoinColumns = @JoinColumn(name = "ruolo_id"))
+    private Set<Role> roles = new HashSet<>();
 
 }
