@@ -54,7 +54,7 @@ public class SecurityConfig {
 
                 // Definisce le regole di accesso alle rotte
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/users/register", "/api/users/login").permitAll()
+                        .requestMatchers("/api/users/register", "/api/users/login", "/api/**").permitAll()
                         // Le rotte di login e pubbliche non richiedono autenticazione
                         .requestMatchers("/auth/**", "/public/**").permitAll()
 

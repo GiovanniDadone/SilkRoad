@@ -2,6 +2,8 @@ package com.example.project_security.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -60,9 +62,9 @@ public class Cart {
      * Calcola il totale del carrello
      */
     @Transient
-    public Double getTotalPrice() {
+    public BigDecimal getTotalPrice() {
         return cartItems.stream()
-                .mapToDouble(item -> item.getUnitPrice().doubleValue() * item.getQuantity())
+                .mapToBigDecimal(item -> item.getUnitPrice().doubleValue() * item.getQuantity())
                 .sum();
     }
     

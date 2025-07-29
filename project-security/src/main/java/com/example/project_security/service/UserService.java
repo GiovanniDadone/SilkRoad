@@ -161,6 +161,9 @@ public class UserService {
         if (updateDTO.getAddress() != null) {
             utente.setAddress(updateDTO.getAddress());
         }
+        if (updateDTO.getEmail() != null) {
+            utente.setEmail(updateDTO.getEmail());
+        }
         if (updateDTO.getTelephone() != null) {
             utente.setTelephone(updateDTO.getTelephone());
         }

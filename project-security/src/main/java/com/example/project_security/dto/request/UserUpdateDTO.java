@@ -25,6 +25,9 @@ public class UserUpdateDTO {
     @Size(max = 200, message = "L'indirizzo non può superare i 200 caratteri")
     private String address;
 
+    @Size(max = 200, message = "L'indirizzo email non può superare i 200 caratteri")
+    private String email;
+
     @Pattern(regexp = "^[+]?[0-9]{10,15}$", message = "Formato telefono non valido")
     private String telephone;
 
