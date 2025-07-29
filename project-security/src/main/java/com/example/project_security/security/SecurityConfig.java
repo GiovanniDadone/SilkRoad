@@ -43,6 +43,7 @@ public class SecurityConfig {
      */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        
         return http
                 // Disabilita CSRF (dato che non usiamo cookie/sessione)
                 .csrf(csrf -> csrf.disable())
@@ -53,6 +54,7 @@ public class SecurityConfig {
 
                 // Definisce le regole di accesso alle rotte
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/users/register", "/api/users/login").permitAll()
                         // Le rotte di login e pubbliche non richiedono autenticazione
                         .requestMatchers("/auth/**", "/public/**").permitAll()
 
