@@ -3,18 +3,35 @@ import api from "./api";
 // Order Services
 export const orderService = {
     createOrder: async (orderData) => {
-        return await api.post('/orders', orderData);
+        try {
+            return await api.post('/orders', orderData);
+        } catch (error) {
+            console.error(error);
+        }
     },
 
     getOrders: async () => {
-        return await api.get('/orders');
+        try {
+            return await api.get('/orders');
+        } catch (error) {
+            console.error(error);
+        }
     },
 
     getOrderById: async (id) => {
-        return await api.get(`/orders/${id}`);
+        try {
+            return await api.get(`/orders/${id}`);
+        } catch (error) {
+            console.error(error);
+        }
+
     },
 
     updateOrderStatus: async (id, status) => {
-        return await api.put(`/orders/${id}/status`, { status });
+        try {
+            return await api.put(`/orders/${id}/status`, { status });
+        } catch (error) {
+            console.error(error);
+        }
     }
 };
