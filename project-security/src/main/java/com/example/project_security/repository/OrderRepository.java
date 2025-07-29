@@ -21,85 +21,87 @@ import com.example.project_security.model.Utente;
  */
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
-    
+
     /**
      * Trova tutti gli ordini di un utente
      */
     Page<Order> findByUserOrderByOrderDateDesc(Utente Utente, Pageable pageable);
+
     List<Order> findByUserOrderByOrderDateDesc(Utente Utente);
-    
+
     /**
      * Trova ordini per stato
      */
     List<Order> findByOrderStatus(OrderStatus status);
+
     Page<Order> findByOrderStatus(OrderStatus status, Pageable pageable);
-    
+
     /**
      * Trova ordini di un utente per stato
      */
     List<Order> findByUserAndOrderStatus(Utente Utente, OrderStatus status);
-    
+
     /**
      * Trova ordini in un range di date
      */
     @Query("SELECT o FROM Order o WHERE o.orderDate BETWEEN :startDate AND :endDate ORDER BY o.orderDate DESC")
-    List<Order> findOrdersInDateRange(@Param("startDate") ZonedDateTime startDate, 
-                                     @Param("endDate") ZonedDateTime endDate);
-    
+    List<Order> findOrdersInDateRange(@Param("startDate") ZonedDateTime startDate,
+            @Param("endDate") ZonedDateTime endDate);
+
     /**
      * Trova l'ultimo ordine di un utente
      */
     Optional<Order> findFirstByUserOrderByOrderDateDesc(Utente Utente);
-    
+
     /**
      * Calcola il totale degli ordini per un utente
      */
-    @Query("SELECT SUM(o.totalPrice) FROM Order o WHERE o.Utente = :Utente AND o.orderStatus NOT IN ('CANCELLED', 'REFUNDED')")
-    BigDecimal calculateUserOrdersTotal(@Param("Utente") Utente Utente);
-    
+    @Query("SELECT SUM(o.totalPrice) FROM Order o WHERE o.user = :utente AND o.orderStatus NOT IN ('CANCELLED', 'REFUNDED')")
+    BigDecimal calculateUserOrdersTotal(@Param("utente") Utente Utente);
+
     /**
      * Conta gli ordini per stato
      */
     @Query("SELECT o.orderStatus, COUNT(o) FROM Order o GROUP BY o.orderStatus")
     List<Object[]> countOrdersByStatus();
-    
+
     /**
      * Trova ordini da spedire
      */
     List<Order> findByOrderStatusOrderByOrderDateAsc(OrderStatus status);
-    
+
     /**
      * Ricerca ordini per numero di tracking
      */
     Optional<Order> findByTrackingNumber(String trackingNumber);
-    
+
     /**
      * Trova ordini con totale superiore a un valore
      */
     @Query("SELECT o FROM Order o WHERE o.totalPrice >= :amount ORDER BY o.totalPrice DESC")
     List<Order> findHighValueOrders(@Param("amount") BigDecimal amount);
-    
+
     /**
      * Report vendite per periodo
      */
     @Query("SELECT DATE(o.orderDate), COUNT(o), SUM(o.totalPrice) " +
-           "FROM Order o " +
-           "WHERE o.orderDate BETWEEN :startDate AND :endDate " +
-           "AND o.orderStatus NOT IN ('CANCELLED', 'REFUNDED') " +
-           "GROUP BY DATE(o.orderDate) " +
-           "ORDER BY DATE(o.orderDate)")
+            "FROM Order o " +
+            "WHERE o.orderDate BETWEEN :startDate AND :endDate " +
+            "AND o.orderStatus NOT IN ('CANCELLED', 'REFUNDED') " +
+            "GROUP BY DATE(o.orderDate) " +
+            "ORDER BY DATE(o.orderDate)")
     List<Object[]> generateSalesReport(@Param("startDate") ZonedDateTime startDate,
-                                      @Param("endDate") ZonedDateTime endDate);
-    
+            @Param("endDate") ZonedDateTime endDate);
+
     /**
      * Trova ordini che necessitano di essere processati
      */
     @Query("SELECT o FROM Order o WHERE o.orderStatus = 'PAYMENT_CONFIRMED' ORDER BY o.orderDate ASC")
     List<Order> findOrdersToProcess();
-    
+
     /**
      * Conta ordini per utente
      */
-    @Query("SELECT o.Utente.id, o.Utente.email, COUNT(o) FROM Order o GROUP BY o.Utente.id, o.Utente.email")
+    @Query("SELECT o.user.id, o.user.email, COUNT(o) FROM Order o GROUP BY o.user.id, o.user.email")
     List<Object[]> countOrdersByUser();
 }
