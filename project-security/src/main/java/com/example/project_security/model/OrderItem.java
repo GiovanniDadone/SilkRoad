@@ -76,11 +76,15 @@ public class OrderItem {
     /**
      * Calcola il subtotale per questo item
      */
-    @Transient
-    public BigDecimal getSubtotal() {
-        BigDecimal subtotal = unitPrice.multiply(BigDecimal.valueOf(quantity));
-        return subtotal.subtract(discountAmount);
-    }
+  @Transient
+public BigDecimal getSubtotal() {
+    BigDecimal safeUnitPrice = unitPrice != null ? unitPrice : BigDecimal.ZERO;
+    int safeQuantity = quantity != null ? quantity : 0;
+    BigDecimal safeDiscount = discountAmount != null ? discountAmount : BigDecimal.ZERO;
+
+    return safeUnitPrice.multiply(BigDecimal.valueOf(safeQuantity)).subtract(safeDiscount);
+}
+
     
     /**
      * Calcola il subtotale senza sconti
