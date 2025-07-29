@@ -1,1 +1,2 @@
-CREATE DATABASE silkroad;
+SELECT *
+from utenti;

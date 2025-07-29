@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.project_security.dto.UserDTO;
+import com.example.project_security.dto.request.LoginRequestDTO;
 import com.example.project_security.dto.request.UserRegistrationDTO;
 import com.example.project_security.dto.request.UserUpdateDTO;
+import com.example.project_security.dto.response.AuthResponse;
 import com.example.project_security.service.UserService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -27,17 +29,15 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
-/**
- * REST Controller per la gestione degli utenti del sistema e-commerce.
- * Gestisce registrazione, profilo utente e operazioni amministrative.
- */
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
-@Tag(name = "User Management", description = "API per la gestione degli utenti")
+@Tag(name = "User Management", description = "API per la gestione degli utenti e l'autenticazione")
 public class UserController {
 
     private final UserService userService;
+
+    // ===== ENDPOINTS DI AUTENTICAZIONE =====
 
     /**
      * Registra un nuovo utente
@@ -50,12 +50,23 @@ public class UserController {
     }
 
     /**
-     * Recupera il profilo dell'utente corrente
+     * Autentica un utente e restituisce i token
      */
+    @PostMapping("/login")
+    @Operation(summary = "Autentica un utente e restituisce i token JWT")
+    public ResponseEntity<AuthResponse> loginUser(@Valid @RequestBody LoginRequestDTO loginRequest) {
+        AuthResponse authResponse = userService.loginUser(loginRequest);
+        return ResponseEntity.ok(authResponse);
+    }
+
+    // ===== ENDPOINTS PROFILO UTENTE =====
+
     @GetMapping("/profile")
     @PreAuthorize("isAuthenticated()")
     @Operation(summary = "Recupera il profilo dell'utente autenticato")
     public ResponseEntity<UserDTO> getCurrentUserProfile(Authentication authentication) {
+        // In Spring Security 6, authentication.getName() di solito è l'username (nel
+        // nostro caso l'email)
         String email = authentication.getName();
         UserDTO user = userService.getUserByEmail(email);
         return ResponseEntity.ok(user);
