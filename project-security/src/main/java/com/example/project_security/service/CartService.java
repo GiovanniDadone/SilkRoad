@@ -15,11 +15,11 @@ import com.example.project_security.exception.ResourceNotFoundException;
 import com.example.project_security.model.Cart;
 import com.example.project_security.model.CartItem;
 import com.example.project_security.model.Product;
-import com.example.project_security.model.User;
+import com.example.project_security.model.Utente;
 import com.example.project_security.repository.CartItemRepository;
 import com.example.project_security.repository.CartRepository;
 import com.example.project_security.repository.ProductRepository;
-import com.example.project_security.repository.UserRepository;
+import com.example.project_security.repository.UtenteRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,13 +37,13 @@ public class CartService {
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
     private final ProductRepository productRepository;
-    private final UserRepository userRepository;
+    private final UtenteRepository userRepository;
 
     /**
      * Crea un nuovo carrello per un utente
      */
-    public Cart createCartForUser(User user) {
-        log.info("Creazione nuovo carrello per utente: {}", user.getEmail());
+    public Cart createCartForUser(Utente user) {
+        //log.info("Creazione nuovo carrello per utente: {}" , user.getEmail());
 
         // Disattiva eventuali carrelli attivi precedenti
         cartRepository.findByUserAndIsActiveTrue(user).ifPresent(cart -> {
@@ -67,7 +67,7 @@ public class CartService {
         Cart cart = cartRepository.findActiveCartByUserId(userId)
                 .orElseGet(() -> {
                     // Se non esiste un carrello attivo, ne creiamo uno
-                    User user = userRepository.findById(userId)
+                    Utente user = userRepository.findById(userId)
                             .orElseThrow(() -> new ResourceNotFoundException("Utente non trovato"));
                     return createCartForUser(user);
                 });
@@ -84,7 +84,7 @@ public class CartService {
         // Recupera il carrello attivo
         Cart cart = cartRepository.findActiveCartByUserId(userId)
                 .orElseGet(() -> {
-                    User user = userRepository.findById(userId)
+                    Utente user = userRepository.findById(userId)
                             .orElseThrow(() -> new ResourceNotFoundException("Utente non trovato"));
                     return createCartForUser(user);
                 });

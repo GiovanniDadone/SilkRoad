@@ -24,12 +24,11 @@ import com.example.project_security.model.Order;
 import com.example.project_security.model.OrderItem;
 import com.example.project_security.model.OrderStatus;
 import com.example.project_security.model.Product;
-import com.example.project_security.model.User;
+import com.example.project_security.model.Utente;
 import com.example.project_security.repository.CartRepository;
-import com.example.project_security.repository.OrderItemRepository;
 import com.example.project_security.repository.OrderRepository;
 import com.example.project_security.repository.ProductRepository;
-import com.example.project_security.repository.UserRepository;
+import com.example.project_security.repository.UtenteRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -47,7 +46,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
     // private final OrderItemRepository orderItemRepository;
     private final CartRepository cartRepository;
-    private final UserRepository userRepository;
+    private final UtenteRepository userRepository;
     private final ProductRepository productRepository;
     private final CartService cartService;
 
@@ -58,7 +57,7 @@ public class OrderService {
         log.info("Creazione ordine per utente: {}", userId);
 
         // Recupera l'utente
-        User user = userRepository.findById(userId)
+        Utente user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("Utente non trovato"));
 
         // Recupera il carrello attivo
@@ -153,7 +152,7 @@ public class OrderService {
      */
     @Transactional(readOnly = true)
     public Page<OrderDTO> getUserOrders(Long userId, int page, int size) {
-        User user = userRepository.findById(userId)
+        Utente user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("Utente non trovato"));
 
         Pageable pageable = PageRequest.of(page, size, Sort.by("orderDate").descending());
@@ -285,7 +284,7 @@ public class OrderService {
      */
     @Transactional(readOnly = true)
     public BigDecimal calculateUserOrdersTotal(Long userId) {
-        User user = userRepository.findById(userId)
+        Utente user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("Utente non trovato"));
 
         BigDecimal total = orderRepository.calculateUserOrdersTotal(user);

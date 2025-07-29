@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import com.example.project_security.model.Order;
 import com.example.project_security.model.OrderStatus;
-import com.example.project_security.model.User;
+import com.example.project_security.model.Utente;
 
 /**
  * Repository per la gestione delle operazioni CRUD sull'entità Order.
@@ -25,8 +25,8 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     /**
      * Trova tutti gli ordini di un utente
      */
-    Page<Order> findByUserOrderByOrderDateDesc(User user, Pageable pageable);
-    List<Order> findByUserOrderByOrderDateDesc(User user);
+    Page<Order> findByUserOrderByOrderDateDesc(Utente Utente, Pageable pageable);
+    List<Order> findByUserOrderByOrderDateDesc(Utente Utente);
     
     /**
      * Trova ordini per stato
@@ -37,7 +37,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     /**
      * Trova ordini di un utente per stato
      */
-    List<Order> findByUserAndOrderStatus(User user, OrderStatus status);
+    List<Order> findByUserAndOrderStatus(Utente Utente, OrderStatus status);
     
     /**
      * Trova ordini in un range di date
@@ -49,13 +49,13 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     /**
      * Trova l'ultimo ordine di un utente
      */
-    Optional<Order> findFirstByUserOrderByOrderDateDesc(User user);
+    Optional<Order> findFirstByUserOrderByOrderDateDesc(Utente Utente);
     
     /**
      * Calcola il totale degli ordini per un utente
      */
-    @Query("SELECT SUM(o.totalPrice) FROM Order o WHERE o.user = :user AND o.orderStatus NOT IN ('CANCELLED', 'REFUNDED')")
-    BigDecimal calculateUserOrdersTotal(@Param("user") User user);
+    @Query("SELECT SUM(o.totalPrice) FROM Order o WHERE o.Utente = :Utente AND o.orderStatus NOT IN ('CANCELLED', 'REFUNDED')")
+    BigDecimal calculateUserOrdersTotal(@Param("Utente") Utente Utente);
     
     /**
      * Conta gli ordini per stato
@@ -100,6 +100,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     /**
      * Conta ordini per utente
      */
-    @Query("SELECT o.user.id, o.user.email, COUNT(o) FROM Order o GROUP BY o.user.id, o.user.email")
+    @Query("SELECT o.Utente.id, o.Utente.email, COUNT(o) FROM Order o GROUP BY o.Utente.id, o.Utente.email")
     List<Object[]> countOrdersByUser();
 }

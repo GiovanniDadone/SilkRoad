@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.example.project_security.model.Cart;
-import com.example.project_security.model.User;
+import com.example.project_security.model.Utente;
 
 /**
  * Repository per la gestione delle operazioni CRUD sull'entità Cart.
@@ -20,7 +20,7 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
     /**
      * Trova il carrello attivo di un utente
      */
-    Optional<Cart> findByUserAndIsActiveTrue(User user);
+    Optional<Cart> findByUserAndIsActiveTrue(Utente user);
     
     /**
      * Trova il carrello attivo tramite user id
@@ -31,7 +31,7 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
     /**
      * Trova tutti i carrelli di un utente (attivi e non)
      */
-    List<Cart> findByUserOrderByIdDesc(User user);
+    List<Cart> findByUserOrderByIdDesc(Utente user);
     
     /**
      * Trova tutti i carrelli attivi
