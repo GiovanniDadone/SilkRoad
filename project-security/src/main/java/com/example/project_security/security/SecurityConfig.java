@@ -61,6 +61,8 @@ public class SecurityConfig {
                         // Le rotte /admin/** richiedono il ruolo ADMIN
                         .requestMatchers("/admin/**").hasRole("ADMIN")
 
+                        .requestMatchers( "/api/users").authenticated()
+
                         // Tutte le altre richieste devono essere autenticate
                         .anyRequest().authenticated())
 
