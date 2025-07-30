@@ -31,3 +31,8 @@ build/
 
 ### VS Code ###
 .vscode/
+
+##node-modules###
+!**/src/main/webapp/silkroad/node_modules
+.env
+.properties
