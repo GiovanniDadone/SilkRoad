@@ -1,7 +1,6 @@
 package com.example.project_security.model;
 
 import java.util.Set;
-
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,6 +9,8 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EqualsAndHashCode(of = {"id", "name"})    // <-- QUESTA!
+@ToString(exclude = {"users"})             // <-- QUESTA!
 @Table(name = "ruoli")
 public class Role {
 
@@ -20,8 +21,6 @@ public class Role {
     @Column(nullable = false, unique = true)
     private String name;
 
-    // opzionale
     @ManyToMany(mappedBy = "roles")
     private Set<Utente> users;
 }
-
