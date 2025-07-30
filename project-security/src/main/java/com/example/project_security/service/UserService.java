@@ -146,34 +146,23 @@ public class UserService {
      * Aggiorna i dati di un utente
      */
     public UserDTO updateUser(Long id, UserUpdateDTO updateDTO) {
-        log.info("Aggiornamento utente con ID: {}", id);
-
         Utente utente = utenteRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Utente non trovato con ID: " + id));
 
-        // Aggiorna solo i campi forniti
-        if (updateDTO.getFirstName() != null) {
+        if (updateDTO.getFirstName() != null)
             utente.setFirstName(updateDTO.getFirstName());
-        }
-        if (updateDTO.getLastName() != null) {
+        if (updateDTO.getLastName() != null)
             utente.setLastName(updateDTO.getLastName());
-        }
-        if (updateDTO.getAddress() != null) {
+        if (updateDTO.getAddress() != null)
             utente.setAddress(updateDTO.getAddress());
-        }
-        if (updateDTO.getTelephone() != null) {
+        if (updateDTO.getEmail() != null)
+            utente.setEmail(updateDTO.getEmail());
+        if (updateDTO.getTelephone() != null)
             utente.setTelephone(updateDTO.getTelephone());
-        }
-
-        // Se viene fornita una nuova password, la cifriamo
-        if (updateDTO.getNewPassword() != null) {
+        if (updateDTO.getNewPassword() != null)
             utente.setPassword(passwordEncoder.encode(updateDTO.getNewPassword()));
-        }
 
-        Utente updatedUser = utenteRepository.save(utente);
-        log.info("Utente aggiornato con successo. ID: {}", updatedUser.getId());
-
-        return convertToDTO(updatedUser);
+        return convertToDTO(utenteRepository.save(utente));
     }
 
     /**

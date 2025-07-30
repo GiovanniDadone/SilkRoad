@@ -19,6 +19,6 @@ public class CartDTO {
     private Long userId;
     private List<CartItemDTO> items;
     private Integer totalItems;
-    private Double totalPrice;
+    private BigDecimal totalPrice;
     private boolean isActive;
 }
