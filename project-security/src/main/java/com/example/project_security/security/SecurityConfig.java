@@ -3,12 +3,15 @@ package com.example.project_security.security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.example.project_security.service.CustomUserDetailsService;
 
@@ -34,49 +37,37 @@ public class SecurityConfig {
         this.passwordEncoder = encoder;
     }
 
-    /**
-     * Definisce la catena di sicurezza HTTP:
-     * - Disabilita CSRF
-     * - Imposta la sessione in modalitÃ stateless (JWT)
-     * - Applica regole di autorizzazione
-     * - Registra il filtro JWT prima del filtro di autenticazione standard
-     */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        
         return http
-                // Disabilita CSRF (dato che non usiamo cookie/sessione)
+                .cors(Customizer.withDefaults()) // <-- **1. ABILITA CORS QUI**
                 .csrf(csrf -> csrf.disable())
-
-                // Imposta la gestione delle sessioni come stateless (non viene usata la
-                // sessione HTTP)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-
-                // Definisce le regole di accesso alle rotte
                 .authorizeHttpRequests(auth -> auth
+                        // ... (vedi il punto 3 per le correzioni qui)
                         .requestMatchers("/api/users/register", "/api/users/login").permitAll()
-                        // Le rotte di login e pubbliche non richiedono autenticazione
-                        .requestMatchers("/auth/**", "/public/**").permitAll()
-
-                        // Le rotte /admin/** richiedono il ruolo ADMIN
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
-
-                        // Tutte le altre richieste devono essere autenticate
                         .anyRequest().authenticated())
-
-                // Aggiunge il filtro JWT prima del filtro standard di autenticazione
-                // username/password
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-
-                // Costruisce e restituisce la catena
                 .build();
     }
 
-    /**
-     * Configura l'AuthenticationManager da usare manualmente o nel controller.
-     * Usa il servizio utenti personalizzato e il password encoder scelto (es.
-     * BCrypt).
-     */
+    // ... (il tuo bean authManager rimane invariato)
+
+    // **2. DECOMMENTA E USA QUESTO BEAN PER CONFIGURARE CORS**
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/api/**") // Applica CORS a tutti gli endpoint /api/
+                        .allowedOrigins("http://localhost:3000") // Permetti richieste dal tuo frontend React
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Metodi permessi
+                        .allowedHeaders("*") // Permetti tutti gli header
+                        .allowCredentials(true);
+            }
+        };
+    }
+
     @Bean
     public AuthenticationManager authManager(HttpSecurity http) throws Exception {
         AuthenticationManagerBuilder authBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);

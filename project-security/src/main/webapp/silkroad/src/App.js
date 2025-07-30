@@ -17,6 +17,9 @@ import Cart from './pages/Cart';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Profile from './pages/Profile';
+import Orders from './pages/Orders';
+import OrderDetail from './pages/OrderDetail';
+import Checkout from './pages/Checkout';
 import ProtectedRoute from './components/Auth/ProtectedRoute';
 
 const queryClient = new QueryClient({
@@ -120,19 +123,37 @@ function App() {
             <Router>
               <Layout>
                 <Routes>
+                  {/* Route pubbliche */}
                   <Route path="/" element={<Home />} />
                   <Route path="/products" element={<ProductList />} />
                   <Route path="/products/:id" element={<ProductDetail />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/register" element={<Register />} />
+                  
+                  {/* Route protette */}
                   <Route path="/cart" element={
                     <ProtectedRoute>
                       <Cart />
                     </ProtectedRoute>
                   } />
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/register" element={<Register />} />
+                  <Route path="/checkout" element={
+                    <ProtectedRoute>
+                      <Checkout />
+                    </ProtectedRoute>
+                  } />
                   <Route path="/profile" element={
                     <ProtectedRoute>
                       <Profile />
+                    </ProtectedRoute>
+                  } />
+                  <Route path="/orders" element={
+                    <ProtectedRoute>
+                      <Orders />
+                    </ProtectedRoute>
+                  } />
+                  <Route path="/orders/:orderId" element={
+                    <ProtectedRoute>
+                      <OrderDetail />
                     </ProtectedRoute>
                   } />
                 </Routes>
