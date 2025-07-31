@@ -17,31 +17,30 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 @Table(name = "carts")
-@EqualsAndHashCode(exclude = {"user", "cartItems"})
-@ToString(exclude = {"user", "cartItems"})
+@EqualsAndHashCode(exclude = { "user", "cartItems" })
+@ToString(exclude = { "user", "cartItems" })
 public class Cart {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     /**
      * CAMBIATO: Ora punta a Utente invece di User
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    private Utente user;  // ← CAMBIATO da User a Utente
-    
-    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, 
-               orphanRemoval = true, fetch = FetchType.LAZY)
+    private Utente user; // ← CAMBIATO da User a Utente
+
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @Builder.Default
     private Set<CartItem> cartItems = new HashSet<>();
-    
+
     @Column(name = "is_active", nullable = false)
     private boolean isActive = true;
-    
+
     // Metodi di utilità
-    
+
     /**
      * Aggiunge un item al carrello
      */
@@ -49,7 +48,7 @@ public class Cart {
         cartItems.add(item);
         item.setCart(this);
     }
-    
+
     /**
      * Rimuove un item dal carrello
      */
@@ -57,10 +56,11 @@ public class Cart {
         cartItems.remove(item);
         item.setCart(null);
     }
-    
+
     /**
      * Calcola il totale del carrello
      */
+<<<<<<< HEAD
   @Transient
 public BigDecimal getTotalPrice() {
     return cartItems.stream()
@@ -71,6 +71,18 @@ public BigDecimal getTotalPrice() {
             })
             .reduce(BigDecimal.ZERO, BigDecimal::add);
 }
+=======
+    @Transient
+    public BigDecimal getTotalPrice() {
+        return cartItems.stream()
+                .map(item -> {
+                    BigDecimal price = item.getUnitPrice() != null ? item.getUnitPrice() : BigDecimal.ZERO;
+                    Integer quantity = item.getQuantity() != null ? item.getQuantity() : 0;
+                    return price.multiply(BigDecimal.valueOf(quantity));
+                })
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+>>>>>>> main
 
     /**
      * Calcola il numero totale di articoli nel carrello
@@ -81,7 +93,7 @@ public BigDecimal getTotalPrice() {
                 .mapToInt(CartItem::getQuantity)
                 .sum();
     }
-    
+
     /**
      * Svuota il carrello
      */

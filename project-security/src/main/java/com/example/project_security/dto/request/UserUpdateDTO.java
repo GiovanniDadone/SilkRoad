@@ -32,6 +32,8 @@ public class UserUpdateDTO {
     private String telephone;
 
     @Size(min = 8, message = "La password deve avere almeno 8 caratteri")
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$", message = "La password deve contenere almeno un numero, una lettera minuscola, una maiuscola e un carattere speciale")
+    // @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$",
+    // message = "La password deve contenere almeno un numero, una lettera
+    // minuscola, una maiuscola e un carattere speciale")
     private String newPassword;
 }
