@@ -123,13 +123,6 @@ public class UserService {
         Utente utente = utenteRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Utente non trovato con ID: " + id));
 
-<<<<<<< HEAD
-        if (updateDTO.getFirstName() != null) utente.setFirstName(updateDTO.getFirstName());
-        if (updateDTO.getLastName() != null) utente.setLastName(updateDTO.getLastName());
-        if (updateDTO.getAddress() != null) utente.setAddress(updateDTO.getAddress());
-        if (updateDTO.getEmail() != null) utente.setEmail(updateDTO.getEmail());
-        if (updateDTO.getTelephone() != null) utente.setTelephone(updateDTO.getTelephone());
-=======
         if (updateDTO.getFirstName() != null)
             utente.setFirstName(updateDTO.getFirstName());
         if (updateDTO.getLastName() != null)
@@ -140,7 +133,6 @@ public class UserService {
             utente.setEmail(updateDTO.getEmail());
         if (updateDTO.getTelephone() != null)
             utente.setTelephone(updateDTO.getTelephone());
->>>>>>> main
         if (updateDTO.getNewPassword() != null)
             utente.setPassword(passwordEncoder.encode(updateDTO.getNewPassword()));
 
