@@ -80,7 +80,7 @@ SilkRoad adotta un'architettura a più livelli (multi-layered), standard per le 
 ## Stack Tecnologico
 
 -   **Framework**: Spring Boot 3
--   **Linguaggio**: Java 17
+-   **Linguaggio**: Java 21
 -   **Sicurezza**: Spring Security, JSON Web Token (JWT)
 -   **Database**: Spring Data JPA, Hibernate
 -   **Build Tool**: Apache Maven
@@ -143,25 +143,26 @@ project-security/
 │   ├── config/
 │   │   └── CorsConfig.java           # Configurazione CORS
 │   ├── controller/
+│   │   ├── AdminController.java      # Gestione Admin
 │   │   ├── UserController.java       # Gestione utenti e auth
 │   │   ├── ProductController.java    # Gestione prodotti
 │   │   ├── CategoryController.java   # Gestione categorie
 │   │   ├── CartController.java       # Gestione carrello
+│   │   ├── PublicController.java     # Gestione rotta pubblica
 │   │   └── OrderController.java      # Gestione ordini
 │   ├── dto/
 │   │   ├── request/                  # DTO per richieste
-│   │   │   ├── LoginRequestDTO.java
-│   │   │   ├── UserRegistrationDTO.java
-│   │   │   └── CreateProductDTO.java
 │   │   └── response/                 # DTO per risposte
-│   │       └── AuthResponse.java
-│   ├── exception/
-│   │   └── GlobalExceptionHandler.java # Gestione errori centralizzata
+│   ├── exception/                    # Gestione errori centralizzata
 │   ├── model/
 │   │   ├── Utente.java              # Entità utente unificata
 │   │   ├── Product.java             # Entità prodotto
 │   │   ├── Category.java            # Entità categoria
 │   │   ├── Cart.java                # Entità carrello
+│   │   ├── CartItem.java            # Entità item del carrello
+│   │   ├── OrderStatus.java         # Entità status dell'ordine
+│   │   ├── OrderItem.java           # Entità item ordinato
+│   │   ├── Role.java                # Entità ruoli
 │   │   └── Order.java               # Entità ordine
 │   ├── repository/                   # Repository JPA
 │   ├── security/
@@ -169,9 +170,12 @@ project-security/
 │   │   ├── SecurityConfig.java      # Configurazione sicurezza
 │   │   └── JwtService.java          # Servizio JWT
 │   └── service/
-│       ├── UserService.java         # Logica utenti
-│       ├── ProductService.java      # Logica prodotti
-│       └── CartService.java         # Logica carrello
+│   │   ├── UserService.java         # Logica utenti
+│   │   ├── CostumUserDetailsService.java      # Logica dettagli dei servizi
+│   │   ├── OrderService.java        # Logica servizi
+│   │   ├── ProductService.java      # Logica prodotti
+│   │   ├── CategoryService.java      # Logica categorie prodotti
+│   │   └── CartService.java         # Logica carrello
 └── src/main/resources/
     └── application.properties        # Configurazione
 ```
@@ -218,10 +222,10 @@ L'interfaccia utente (frontend) per questa piattaforma è sviluppata e mantenuta
 
 Questo progetto è stato sviluppato e mantenuto dai seguenti autori:
 
--   **Massimiliano Cassia** - *Boh* - [giovannidadone](https://github.com/giovannidadone);
--   **Jacopo De Martino** - *Boh* - [giovannidadone](https://github.com/giovannidadone);
--   **Giovanni Dadone** - *Boh* - [giovannidadone](https://github.com/giovannidadone);
--   **Fabio Mallardo** - *Boh* - [giovannidadone](https://github.com/giovannidadone).      
+-   **Massimiliano Cassia** - *Back-end developer* - [massimilianocassia](https://github.com/Massyiwnl);
+-   **Jacopo De Martino** - *Back-end developer* - [jacopodemartino](https://github.com/Jacopo-De-Martino);
+-   **Giovanni Dadone** - *Front-end developer* - [giovannidadone](https://github.com/giovannidadone);
+-   **Fabio Mallardo** - *Front-end developer* - [fabiomallardo](https://github.com/fabiomallardo).      
 
 ---
 
