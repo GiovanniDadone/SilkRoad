@@ -59,6 +59,8 @@ public class UserController {
         return ResponseEntity.ok(authResponse);
     }
 
+    
+
     // ===== ENDPOINTS PROFILO UTENTE =====
 
     @GetMapping("/profile")
