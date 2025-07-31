@@ -44,8 +44,21 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
+<<<<<<< HEAD
+                        .requestMatchers("/api/users/register", "/api/users/login", "/api/**").permitAll()
+                        // Le rotte di login e pubbliche non richiedono autenticazione
+                        .requestMatchers("/auth/**", "/public/**").permitAll()
+
+                        // Le rotte /admin/** richiedono il ruolo ADMIN
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+
+                        .requestMatchers( "/api/users").authenticated()
+
+                        // Tutte le altre richieste devono essere autenticate
+=======
                         // ... (vedi il punto 3 per le correzioni qui)
                         .requestMatchers("/api/users/register", "/api/users/login").permitAll()
+>>>>>>> main
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

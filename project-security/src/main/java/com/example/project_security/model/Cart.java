@@ -60,6 +60,18 @@ public class Cart {
     /**
      * Calcola il totale del carrello
      */
+<<<<<<< HEAD
+  @Transient
+public BigDecimal getTotalPrice() {
+    return cartItems.stream()
+            .map(item -> {
+                BigDecimal price = item.getUnitPrice() != null ? item.getUnitPrice() : BigDecimal.ZERO;
+                Integer quantity = item.getQuantity() != null ? item.getQuantity() : 0;
+                return price.multiply(BigDecimal.valueOf(quantity));
+            })
+            .reduce(BigDecimal.ZERO, BigDecimal::add);
+}
+=======
     @Transient
     public BigDecimal getTotalPrice() {
         return cartItems.stream()
@@ -70,6 +82,7 @@ public class Cart {
                 })
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
+>>>>>>> main
 
     /**
      * Calcola il numero totale di articoli nel carrello
