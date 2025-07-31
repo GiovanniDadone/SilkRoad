@@ -1,6 +1,6 @@
 # SilkRoad E-commerce Platform (Backend)
 
-![Immagine di Logo Aziendale](https://www.bing.com/images/search?view=detailV2&ccid=M8wOj1nm&id=6AC9F18D23CC32CD01C59BC9B0CA30BCA8559511&thid=OIP.M8wOj1nmBewVLSRl0sbRSQHaB6&mediaurl=https%3a%2f%2fvectorseek.com%2fwp-content%2fuploads%2f2023%2f08%2fSilk-Road-Logo-Vector.svg-.png&cdnurl=https%3a%2f%2fth.bing.com%2fth%2fid%2fR.33cc0e8f59e605ec152d2465d2c6d149%3frik%3dEZVVqLwwyrDJmw%26pid%3dImgRaw%26r%3d0&exph=487&expw=1883&q=silkroad+png+logo&simid=608050096197165263&FORM=IRPRST&ck=7AA55FFB65652FE49BCDF5C8B3DDD931&selectedIndex=1&itb=1&ajaxhist=0&ajaxserp=0)
+![Immagine di Logo Aziendale](https://placehold.co/1200x300/003366/FFFFFF?text=SilkRoad+Backend&font=raleway)
 
 [![Stato Build](https://img.shields.io/badge/build-passing-brightgreen?style=for-the-badge&logo=github)](https://github.com/giovannidadone/silkroad)
 [![Licenza](https://img.shields.io/badge/license-MIT-blue?style=for-the-badge)](https://opensource.org/licenses/MIT)
