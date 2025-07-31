@@ -190,7 +190,7 @@ La sicurezza è gestita da **Spring Security**.
 
 L'interfaccia utente (frontend) per questa piattaforma è sviluppata e mantenuta in un repository separato. È progettata per consumare le API esposte da questo backend.
 
--   **Repository Frontend**: [https://github.com/tuo-username/silkroad-frontend](https://github.com/tuo-username/silkroad-frontend) (Link di esempio)
+-   **Repository Frontend**: [https://github.com/fabiomallardo/silkroad-frontend](https://github.com/fabiomallardo/silkroad-frontend) (Link di esempio)
 
 ---
 
@@ -220,3 +220,6 @@ Siamo aperti a contributi dalla community. Se desideri contribuire, per favore s
 ## Licenza
 
 Questo progetto è distribuito sotto la licenza MIT. Vedi il file `LICENSE` per maggiori dettagli.
+
+**Nota Bene**: Questo progetto è stato creato a scopo puramente didattico e non è destinato all'uso in produzione.
+
