@@ -135,26 +135,46 @@ Seguire questi passaggi per configurare l'ambiente di sviluppo e avviare l'appli
 La struttura del progetto segue le convenzioni standard di un'applicazione Spring Boot, promuovendo una chiara separazione dei compiti.
 
 
-src
-└── main
-├── java
-│   └── com
-│       └── example
-│           └── project_security
-│               ├── controller        # Controller REST (API Endpoints)
-│               ├── dto               # Data Transfer Objects
-│               │   ├── request
-│               │   └── response
-│               ├── exception         # Gestori di eccezioni globali
-│               ├── model             # Entità JPA (Dominio)
-│               ├── repository        # Interfacce Spring Data JPA
-│               ├── security          # Configurazione JWT e Spring Security
-│               ├── service           # Logica di business
-│               └── MainSilkRoad.java # Punto di ingresso dell'applicazione
-└── resources
-├── static
-├── templates
-└── application.properties        # File di configurazione
+## 📁 Struttura del Progetto
+
+```
+project-security/
+├── src/main/java/com/example/project_security/
+│   ├── config/
+│   │   └── CorsConfig.java           # Configurazione CORS
+│   ├── controller/
+│   │   ├── UserController.java       # Gestione utenti e auth
+│   │   ├── ProductController.java    # Gestione prodotti
+│   │   ├── CategoryController.java   # Gestione categorie
+│   │   ├── CartController.java       # Gestione carrello
+│   │   └── OrderController.java      # Gestione ordini
+│   ├── dto/
+│   │   ├── request/                  # DTO per richieste
+│   │   │   ├── LoginRequestDTO.java
+│   │   │   ├── UserRegistrationDTO.java
+│   │   │   └── CreateProductDTO.java
+│   │   └── response/                 # DTO per risposte
+│   │       └── AuthResponse.java
+│   ├── exception/
+│   │   └── GlobalExceptionHandler.java # Gestione errori centralizzata
+│   ├── model/
+│   │   ├── Utente.java              # Entità utente unificata
+│   │   ├── Product.java             # Entità prodotto
+│   │   ├── Category.java            # Entità categoria
+│   │   ├── Cart.java                # Entità carrello
+│   │   └── Order.java               # Entità ordine
+│   ├── repository/                   # Repository JPA
+│   ├── security/
+│   │   ├── JwtAuthFilter.java       # Filtro JWT
+│   │   ├── SecurityConfig.java      # Configurazione sicurezza
+│   │   └── JwtService.java          # Servizio JWT
+│   └── service/
+│       ├── UserService.java         # Logica utenti
+│       ├── ProductService.java      # Logica prodotti
+│       └── CartService.java         # Logica carrello
+└── src/main/resources/
+    └── application.properties        # Configurazione
+```
 
 
 ---
