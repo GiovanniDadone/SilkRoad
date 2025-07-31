@@ -223,8 +223,8 @@ L'interfaccia utente (frontend) per questa piattaforma è sviluppata e mantenuta
 Questo progetto è stato sviluppato e mantenuto dai seguenti autori:
 |           AUTORE            |    FRONT-END     |   BACKEND    |             GitHub                                         |  
 |-----------------------------|------------------|--------------|------------------------------------------------------------|
-|   **Massimiliano Cassia** - |       *x*        |              | - [massimilianocassia](https://github.com/Massyiwnl);      |
-|   **Jacopo De Martino** -   |       *x*        |              | - [jacopodemartino](https://github.com/Jacopo-De-Martino); |
+|   **Massimiliano Cassia** - |       *x*        |      *x*     | - [massimilianocassia](https://github.com/Massyiwnl);      |
+|   **Jacopo De Martino** -   |       *x*        |      *x*     | - [jacopodemartino](https://github.com/Jacopo-De-Martino); |
 |   **Giovanni Dadone** -     |       *x*        |      *x*     | - [giovannidadone](https://github.com/giovannidadone);     |
 |   **Fabio Mallardo** -      |       *x*        |      *x*     |- [fabiomallardo](https://github.com/fabiomallardo).        |
 
