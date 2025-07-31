@@ -190,7 +190,7 @@ La sicurezza è gestita da **Spring Security**.
 
 L'interfaccia utente (frontend) per questa piattaforma è sviluppata e mantenuta in un repository separato. È progettata per consumare le API esposte da questo backend.
 
--   **Repository Frontend**: [https://github.com/fabiomallardo/silkroad-frontend](https://github.com/fabiomallardo/silkroad-frontend) (Link di esempio)
+-   **Repository Frontend**: [https://github.com/fabiomallardo/silkroad-frontend](https://github.com/fabiomallardo/silkroad-frontend)
 
 ---
 
